@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "fast-header"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Chongchen Chen <chenkovsky@qq.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-pydantic = "^2.7.4"
+python = ">=3.11"
+pydantic = ">=2.7.0"
 
 
 [tool.poetry.group.dev.dependencies]
