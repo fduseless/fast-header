@@ -29,3 +29,21 @@ setag = ETag(value="a") # strong etag
 wetag = ETag(value="a", weak=True) # weak etag
 ```
 
+### Content Disposition
+
+```python
+from fast_header import ContentDisposition
+cd = ContentDisposition.parse('attachment; filename="=?ISO-8859-1?Q?foo-=E4.html?="')
+assert cd.type == 'attachment'
+assert cd.parameters == { 'filename': '=?ISO-8859-1?Q?foo-=E4.html?=' }
+```
+
+### Content Type
+
+```python
+
+from fast_header import ContentType
+cd = ContentType.parse('text/html; charset=utf-8; foo=bar')
+assert cd.type == 'text/html'
+assert cd.parameters == { 'charset': 'utf-8', 'foo': 'bar' }
+```

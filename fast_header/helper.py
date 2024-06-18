@@ -1,4 +1,5 @@
 from collections.abc import Callable
+import re
 from typing import Any, List, cast
 
 from pydantic import BaseModel, ValidationError, WrapValidator
@@ -45,3 +46,11 @@ class HeaderModel(BaseModel):
             else:
                 raise ValueError("alias should be str or List[str]")
         cls.__alias_mapping__ = ret
+
+
+# RegExp to match chars that must be quoted-pair in RFC 2616
+QUOTE_REGEXP = re.compile(r"""([\\"])""")  # g
+
+
+def qstring(text: str) -> str:
+    return '"' + QUOTE_REGEXP.sub(lambda m: "\\" + m.group(1), text) + '"'
