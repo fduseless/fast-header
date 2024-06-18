@@ -60,15 +60,15 @@ class CacheControl(HeaderModel):
     )
 
     @classmethod
-    def parse(cls, value: str | None) -> Self:
-        if not value:
+    def parse(cls, text: str | None) -> Self:
+        if not text:
             return cls()
         return cls.model_validate(
             {
                 cls.__alias_mapping__.get(m.group(1), m.group(1)): cls.parse_value(
                     m.group(0)
                 )
-                for m in HEADER_REGEXP.finditer(value)
+                for m in HEADER_REGEXP.finditer(text)
             }
         )
 
