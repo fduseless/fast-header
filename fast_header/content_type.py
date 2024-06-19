@@ -18,13 +18,14 @@ TYPE_REGEXP = re.compile(
     r"""^[!#$%&'*+.^_`|~0-9A-Za-z-]+/[!#$%&'*+.^_`|~0-9A-Za-z-]+$"""
 )
 
+MULTIPART_TYPE = "multipart/byteranges"
+
 
 class ContentType(BaseModel, extra="allow"):
     type: str
     if TYPE_CHECKING:
-
         def __init__(self, type: str, **kwargs):
-            super().__init__(type=type, **kwargs)
+            ...
 
     @model_validator(mode="after")
     def check_extra(self) -> Self:
@@ -35,6 +36,10 @@ class ContentType(BaseModel, extra="allow"):
                         f"Only str extra param is supported. Value of {k} is not str"
                     )
         return self
+
+    @classmethod
+    def multipart(cls, boundary: str) -> Self:
+        return cls(type=MULTIPART_TYPE, boundary=boundary)
 
     @classmethod
     def parse(cls, text: str) -> Self:
