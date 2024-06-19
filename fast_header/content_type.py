@@ -1,5 +1,5 @@
 from io import StringIO
-from typing import TYPE_CHECKING, Self
+from typing import TYPE_CHECKING, ClassVar, Self
 from pydantic import BaseModel, model_validator
 import re
 from .helper import qstring
@@ -22,10 +22,11 @@ MULTIPART_TYPE = "multipart/byteranges"
 
 
 class ContentType(BaseModel, extra="allow"):
+    HEADER_NAME: ClassVar[str] = "Content-Type"
     type: str
     if TYPE_CHECKING:
-        def __init__(self, type: str, **kwargs):
-            ...
+
+        def __init__(self, type: str, **kwargs): ...
 
     @model_validator(mode="after")
     def check_extra(self) -> Self:

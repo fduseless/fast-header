@@ -32,7 +32,7 @@ class HeaderModel(BaseModel):
 
     @classmethod
     def __pydantic_init_subclass__(cls, **kwargs):
-        super().__init_subclass__(**kwargs)
+        super().__pydantic_init_subclass__(**kwargs)
         ret = {}
         for k, info in cls.model_fields.items():
             alias = cls.__field_alias__(info)

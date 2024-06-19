@@ -1,11 +1,12 @@
 from pydantic import BaseModel
-from typing import List, Self, cast
+from typing import ClassVar, List, Self, cast
 import re
 
 PAT = re.compile(r"bytes=([^;]+)")
 SPLIT = re.compile(r",\s*")
 
 RANGE_PAT = re.compile(r"""^(\w+) ((\d+)-(\d+)|\*)\/(\d+|\*)$""")
+
 
 class Range(BaseModel):
     start: int = 0
@@ -57,6 +58,7 @@ class Range(BaseModel):
 
 
 class ContentRange(BaseModel):
+    HEADER_NAME: ClassVar[str] = "Content-Range"
     unit: str = "bytes"
     range: Range | None = None
     size: int | None = None
@@ -74,11 +76,9 @@ class ContentRange(BaseModel):
             r = Range.model_validate(dict(start=start, stop=end))
         else:
             r = None
-        return cls(
-            unit=unit,
-            range=r,
-            size= None if size == "*" else int(size)
-        )
-    
+        return cls(unit=unit, range=r, size=None if size == "*" else int(size))
+
     def __str__(self) -> str:
-        return f"{self.unit} {self.range or '*'}/{'*' if self.size is None else self.size}"
+        return (
+            f"{self.unit} {self.range or '*'}/{'*' if self.size is None else self.size}"
+        )

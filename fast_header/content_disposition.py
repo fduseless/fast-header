@@ -67,8 +67,7 @@ class ContentDisposition(BaseModel, extra="allow"):
             filename: str | None = None,
             fallback: bool | str = True,
             **kwargs,
-        ):
-            super().__init__(type=type, filename=filename, fallback=fallback, **kwargs)
+        ): ...
 
     @field_validator("fallback")
     @classmethod
