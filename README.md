@@ -41,9 +41,22 @@ assert cd.parameters == { 'filename': '=?ISO-8859-1?Q?foo-=E4.html?=' }
 ### Content Type
 
 ```python
-
 from fast_header import ContentType
 cd = ContentType.parse('text/html; charset=utf-8; foo=bar')
 assert cd.type == 'text/html'
 assert cd.parameters == { 'charset': 'utf-8', 'foo': 'bar' }
+```
+
+### Content Range
+
+from fast_header import ContentRange
+
+```python
+from fast_header import ContentRange
+cr = ContentRange.parse("bytes 0-20/30")
+assert cr.unit == "bytes"
+assert cr.range is not None
+assert cr.range.start == 0
+assert cr.range.stop == 20
+assert cr.size == 30
 ```
